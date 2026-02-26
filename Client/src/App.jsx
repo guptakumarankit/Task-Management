@@ -1,15 +1,12 @@
-import { AuthProvider } from "./contextApi/AuthContext";
-import { TaskProvider } from "./contextApi/TaskContext";
-import AppRoutes from "./Routes/AppRoutes";
+import React from 'react'
+import Login from './components/Login'
 
 const App = () => {
   return (
-    <AuthProvider>
-      <TaskProvider>
-        <AppRoutes />
-      </TaskProvider>
-    </AuthProvider>
-  );
-};
+    <div>
+      <Login/>
+    </div>
+  )
+}
 
-export default App;
+export default App
