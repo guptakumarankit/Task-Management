@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const [formData , setFormData] = useState({
+    fullName : "",
+    email : "",
+    password : ""
+  })
+
+  const handleSubmit = () => {
+    e.preventDefault();
+    setFormData({
+      fullName : "",
+      email : "",
+      password : ""
+    })
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
-      <form className="w-full max-w-md bg-slate-900 p-8 rounded-2xl shadow-xl space-y-6">
+      <form onSubmit={handleSubmit} className="w-full max-w-md bg-slate-900 p-8 rounded-2xl shadow-xl space-y-6">
         
         <h2 className="text-3xl font-bold text-center text-white">
           Create Account 
@@ -18,7 +33,9 @@ const Signup = () => {
             className="px-4 py-3 rounded-lg bg-slate-800 text-white border border-slate-700 
                        focus:outline-none focus:ring-2 focus:ring-indigo-500 
                        transition duration-300"
-          />
+            value={formData.fullName}
+            onChange={(e) => setFormData({...formData , fullName : e.target.value})}
+         />
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -29,6 +46,8 @@ const Signup = () => {
             className="px-4 py-3 rounded-lg bg-slate-800 text-white border border-slate-700 
                        focus:outline-none focus:ring-2 focus:ring-indigo-500 
                        transition duration-300"
+            value={formData.email}
+            onChange={(e) => setFormData({...formData , email : e.target.value})}
           />
         </div>
 
@@ -40,6 +59,8 @@ const Signup = () => {
             className="px-4 py-3 rounded-lg bg-slate-800 text-white border border-slate-700 
                        focus:outline-none focus:ring-2 focus:ring-indigo-500 
                        transition duration-300"
+          value={formData.password}
+          onChange={(e) => setFormData({...formData , password : e.target.value})}
           />
         </div>
 
