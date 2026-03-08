@@ -1,24 +1,56 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import toast , { Toaster } from 'react-hot-toast'
+import { userBaseUrl } from "../API/apiFetch";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData , setFormData] = useState({
     fullName : "",
     email : "",
     password : ""
   })
 
-  const handleSubmit = () => {
+  useEffect(() => {
+      const userAuth = JSON.parse(localStorage.getItem("userAuth"));
+
+      if(userAuth?.isLogin){
+        navigate('/');
+      }
+  } , [])
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    setFormData({
-      fullName : "",
-      email : "",
-      password : ""
-    })
+    try {
+      const response = await userBaseUrl.post('/signUp' , formData);
+
+      const data = response.data;
+      if(data.success){
+        toast.success(data.message || "Signup successful!");
+        navigate("/");
+      }
+      else{
+        toast.error(data.message || "Signup failed.");
+      }
+    } catch (error) {
+      const errorMessage = error?.response?.data;
+      if (!errorMessage?.success) {
+        toast.error(errorMessage?.message || "Something went wrong!");
+      } else {
+        toast.error("Network error. Please try again.");
+      }
+    }finally{
+      setFormData({
+        fullName : "",
+        email : "",
+        password : ""
+      })
+    }
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
+      <Toaster position="top-center"/>
       <form onSubmit={handleSubmit} className="w-full max-w-md bg-slate-900 p-8 rounded-2xl shadow-xl space-y-6">
         
         <h2 className="text-3xl font-bold text-center text-white">
@@ -79,7 +111,6 @@ const Signup = () => {
             Login
           </Link>
         </p>
-
       </form>
     </div>
   );
